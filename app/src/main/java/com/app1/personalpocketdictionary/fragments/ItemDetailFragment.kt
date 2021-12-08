@@ -67,6 +67,7 @@ class ItemDetailFragment : Fragment() {
         startActivity(intent)
 //        this.startActivity(intent)
 //        context.startActivity(intent)
+//        context.startActivity(intent)
     }
 
     private fun showConfirmationDialog(){
