@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Personal Pocket Dictionary</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="hello">Hello World!</string>
+    <string name="words">Vocabulary</string>
+    <string name="count">#</string>
+    <string name="part_of_speech"><i> part of speech:</i> </string>
+    <string name="definition"><i>definition:</i> </string>
+    <string name="example"><i>example:</i> </string>
+    <string name="add_new_item">Add a New Item</string>
+    <string name="save_action">Save</string>
+    <string name="word_to_learn">Word to learn</string>
+    <string name="paraphrase_speech">Part of speech</string>
+    <string name="paraphrase_definition">Paraphrase your own definition here</string>
+    <string name="paraphrase_example">Make up your own example here</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="edit_fragment_title">Edit your term</string>
+    <string name="add_fragment_title">Add a new term</string>
+    <string name="google_the_term">Google the term</string>
+    <string name="dev_notes">Dev\'s Notes</string>
+    <string name="email_me">send me an email</string>
+    <string name="pay_venmo">donate with venmo</string>
+    <string name="pay_paypal">donate with paypal</string>
+    <string name="email_address">drebadihamid@gmail.com</string>
+    <string name="email_subject">PPD USER MESSAGE</string>
+    <string name="email_text">What I learned in boating school is…</string>
+    <string name="email_exception_activity_not_found">How do you not have an email app… It won\'t work without one duhh</string>
+    <string name="FILL">FILL</string>
+
+
+
+
+    <string name="full_dev_notes">Wassup yall! This is Hamid, thanks for checking out my first ever app! It is super simple but you won\'t believe how many hours went into its creation, not gonna lie I\'m proud af! If you like it as much as me leave a review. Else, if you think it\'s doodoo then see me outside (or hit the email button below to let me know what could improve). I don\'t ever intend to add advertisements to this app or make it a paid app because F- that noise man it\'s a dictionary lol. But if you like it and want to support me, my monies info is below. Alright get your vocab game on! Deuces</string>
+</resources>
