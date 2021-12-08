@@ -26,17 +26,17 @@ class ItemDetailFragment : Fragment() {
     // this delegation is made by using "by" followed by the delegate class, in this case "viewModels()"
     // The delegate class creates the viewModel object for you on the first access, and retains its value through configuration changes and returns the value when requested.
 
-//    private val viewModel: DictionaryViewModel by activityViewModels{
-//        DictionaryViewModelFactory(
-//            (activity?.application as DictionaryApplication).database.getDao()
-//        ) // not sure what all that above is but its boilerplate code copy pasta
-//    }
-//
+    private val viewModel: DictionaryViewModel by activityViewModels{
+        DictionaryViewModelFactory(
+            (activity?.application as DictionaryApplication).database.getDao()
+        ) // not sure what all that above is but its boilerplate code copy pasta
+    }
+//    below are other ways to make a late init view model
 //    private val viewModel: DictionaryViewModel by lazy {
 //        ViewModelProvider(this).get(DictionaryViewModel::class.java)
 //    }
 
-    private lateinit var viewModel: DictionaryViewModel
+//    private lateinit var viewModel: DictionaryViewModel
 
     private lateinit var word: DictionaryData
 
@@ -67,7 +67,6 @@ class ItemDetailFragment : Fragment() {
         startActivity(intent)
 //        this.startActivity(intent)
 //        context.startActivity(intent)
-//        context.startActivity(intent)
     }
 
     private fun showConfirmationDialog(){
@@ -92,7 +91,7 @@ class ItemDetailFragment : Fragment() {
 
     private fun deleteItem() {
         viewModel.deleteWord(word)
-       activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+        findNavController().navigateUp()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -102,31 +101,13 @@ class ItemDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(requireActivity()).get(DictionaryViewModel::class.java)
-
         val id = navigationArgs.itemId
-        viewModel.retrieveData(id).observe(this.viewLifecycleOwner) { selectedItem ->
+        // was using observe(this.viewLifecycleOwner) and changed to "this". not sure if this is bad but it solved the bug causes by null pointer exception on selectedItem
+        viewModel.retrieveData(id).observe(this) { selectedItem ->
             word = selectedItem
             bind(word)
+            }
         }
-
-//        if (viewModel.retrieveData(id).value != null) {
-//            word = viewModel.retrieveData(id).value!!
-//            bind(word)
-//        }
-        }
-
-    /*
-            viewModel.retrieveData(id).observe(this.viewLifecycleOwner) { selectedItem ->
-            word = selectedItem
-            bind(word)
-        }
-     */
-
-
-
-
 
     override fun onDestroy() {
         super.onDestroy()
