@@ -7,6 +7,7 @@
         android:id="@+id/devNotesFragment"
         android:title="@string/dev_notes"
         />
+
     <!-- can put an icon for the item
     app:showAsAction="ifRoom"
     android:icon="@drawable/ic_linear_layout"
