@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <item
-        android:id="@+id/devNotesFragment"
-        android:title="@string/dev_notes"
-        />
-
-    <!-- can put an icon for the item
-    app:showAsAction="ifRoom"
-    android:icon="@drawable/ic_linear_layout"
-       -->
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_more_vert_24"
+        app:showAsAction="always"
+        android:title="@string/settings">
+        <menu>
+        <item
+            android:id="@+id/changeSorting"
+            android:icon="@drawable/ic_baseline_sort_by_alpha_24"
+            android:title="@string/change_sorting"
+            app:showAsAction="ifRoom"
+            android:visible="false"
+            />
+        <item
+            android:id="@+id/devNotesFragment"
+            android:icon="@drawable/ic_baseline_speaker_notes_24"
+            android:title="@string/dev_notes"
+            app:showAsAction="ifRoom"
+            />
+        </menu>
+    </item>
 </menu>

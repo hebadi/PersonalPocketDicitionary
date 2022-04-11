@@ -30,6 +30,7 @@
     <string name="add_fragment_title">Add a new term</string>
     <string name="google_the_term">Google the term</string>
     <string name="dev_notes">Dev\'s Notes</string>
+    <string name="change_sorting">Change sorting</string>
     <string name="email_me">send me an email</string>
     <string name="pay_venmo">donate with venmo</string>
     <string name="pay_paypal">donate with paypal</string>
@@ -42,5 +43,6 @@
 
 
 
-    <string name="full_dev_notes">Wassup yall! This is Hamid, thanks for checking out my first ever app! It is super simple but you won\'t believe how many hours went into its creation, not gonna lie I\'m proud af! If you like it as much as me leave a review. Else, if you think it\'s doodoo then see me outside (or hit the email button below to let me know what could improve). I don\'t ever intend to add advertisements to this app or make it a paid app because F- that noise man it\'s a dictionary lol. But if you like it and want to support me, my monies info is below. Alright get your vocab game on! Deuces</string>
+    <string name="full_dev_notes">Wassup yall! This is Hamid, I want to thank you for checking out my first ever app. It is super simple but you won\'t believe how many hours went into its creation, not gonna lie I\'m proud af! If you like it as much as me leave a review. Else, if you think it\'s doodoo then see me outside (or hit the email button below to let me know what could improve). I don\'t ever intend to add advertisements to this app or make it a paid app because F- that noise man it\'s a dictionary lol. But if you like it and want to support me, my monies info is below. Alright get your vocab game on! Deuces</string>
+    <string name="settings">settings</string>
 </resources>
