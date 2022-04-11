@@ -83,6 +83,6 @@ class ItemFragment : Fragment() {
         super.onDestroy()
         _binding = null
         // close the primary database to ensure all the transactions are merged
-        AppDataBase.getDatabase(this.context!!).close()
+        AppDataBase.getDatabase(this.requireContext()).close()
     }
 }

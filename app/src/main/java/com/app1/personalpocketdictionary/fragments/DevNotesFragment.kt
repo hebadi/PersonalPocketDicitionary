@@ -4,9 +4,9 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.util.Log
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,12 +49,11 @@ intent.resolveActivity(packageManager)
     private fun venmoMe(){
         // small codelab that dives deeper into implicit intents here:
         //https://developer.android.com/codelabs/basic-android-kotlin-training-activities-intents?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fandroid-basics-kotlin-unit-3-pathway-1%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fbasic-android-kotlin-training-activities-intents#6
-        val paypalURL = "https://venmo.com/u/hamidebadi"
-        val queryUrl: Uri = Uri.parse(paypalURL)
+        val venmoURL = "https://venmo.com/u/hamidebadi"
+        val queryUrl: Uri = Uri.parse(venmoURL)
         val intent = Intent(Intent.ACTION_VIEW, queryUrl)
 
         startActivity(intent)
-
     }
 
     private fun paypalMe(){
