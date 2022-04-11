@@ -103,7 +103,7 @@ class ItemDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
         // was using observe(this.viewLifecycleOwner) and changed to "this". not sure if this is bad but it solved the bug causes by null pointer exception on selectedItem
-        viewModel.retrieveData(id).observe(this) { selectedItem ->
+        viewModel.retrieveData(id).observe(viewLifecycleOwner) { selectedItem ->
             word = selectedItem
             bind(word)
             }
