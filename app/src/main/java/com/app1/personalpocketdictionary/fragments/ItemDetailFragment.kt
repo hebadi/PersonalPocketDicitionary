@@ -3,13 +3,12 @@ package com.app1.personalpocketdictionary.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.fragment.findNavController
 import com.app1.personalpocketdictionary.data.DictionaryApplication
@@ -93,6 +92,16 @@ class ItemDetailFragment : Fragment() {
         viewModel.deleteWord(word)
         findNavController().navigateUp()
     }
+    /*
+          Log.d("devNotes", "word: ${word.word} delete function successful")
+
+            Log.d("devNotes", "word: ${word.word} navigate up successful")
+        // it appears that the whole navigation pathway happens before the database gets updated.
+        // once the word is deleted, we're already in the ItemFragment so the UI updates the changes and we're left with a jump in sequence
+        // ex. if we have list 1-5 words and delete item 3 the list will now show 1,2,4,5 instead of 1,2,3,4
+
+     */
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = ItemDetailFragmentBinding.inflate(inflater, container, false)
@@ -102,12 +111,15 @@ class ItemDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
-        // was using observe(this.viewLifecycleOwner) and changed to "this". not sure if this is bad but it solved the bug causes by null pointer exception on selectedItem
+        Log.d("devNotes", "nav args ID: $id")
         viewModel.retrieveData(id).observe(viewLifecycleOwner) { selectedItem ->
-            word = selectedItem
-            bind(word)
+            selectedItem?.let {
+                word = selectedItem
+                bind(word)
             }
         }
+    }
+//    Log.d("devNotes", "word: ${word.word} ItemDetailsFragment onViewCreated initialized successfully")
 
     override fun onDestroy() {
         super.onDestroy()

@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_itemDetailFragment_to_addAndEditFragment"
             app:destination="@id/addAndEditFragment" />
+        <action
+            android:id="@+id/action_itemDetailFragment_to_itemFragment"
+            app:destination="@id/itemFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAndEditFragment"
@@ -47,7 +50,8 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_addAndEditFragment_to_itemFragment"
-            app:destination="@id/itemFragment" />
+            app:destination="@id/itemFragment"
+             />
     </fragment>
     <fragment
         android:id="@+id/devNotesFragment"
@@ -55,3 +59,7 @@
         android:label="@string/dev_notes"
         tools:layout="@layout/fragment_dev_notes" />
 </navigation>
+
+<!--            app:popUpTo="@id/itemFragment"
+            app:popUpToInclusive="true"
+-->

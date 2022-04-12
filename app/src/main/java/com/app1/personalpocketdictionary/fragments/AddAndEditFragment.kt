@@ -92,7 +92,7 @@ class AddAndEditFragment : Fragment() {
 
     //this fun sets the live observer for our live data to display on the edit screen
     private fun editTasks(){
-        viewModel.retrieveData(navigationArgs.itemId).observe(this.viewLifecycleOwner) { selectedWord ->
+        viewModel.retrieveData(navigationArgs.itemId).observe(viewLifecycleOwner) { selectedWord ->
             word = selectedWord
             bind(word)
         }

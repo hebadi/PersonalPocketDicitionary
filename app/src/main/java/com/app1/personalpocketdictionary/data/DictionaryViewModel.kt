@@ -1,5 +1,6 @@
 package com.app1.personalpocketdictionary.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -55,6 +56,7 @@ class DictionaryViewModel(private val dictionaryDao: DictionaryDao): ViewModel()
     fun deleteWord(word: DictionaryData){
         viewModelScope.launch {
             dictionaryDao.delete(word)
+            Log.d("devNotes", "doa delete successful")
         }
     }
 
