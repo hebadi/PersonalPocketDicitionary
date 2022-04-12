@@ -93,15 +93,9 @@ class ItemDetailFragment : Fragment() {
         findNavController().navigateUp()
     }
     /*
-          Log.d("devNotes", "word: ${word.word} delete function successful")
-
-            Log.d("devNotes", "word: ${word.word} navigate up successful")
-        // it appears that the whole navigation pathway happens before the database gets updated.
         // once the word is deleted, we're already in the ItemFragment so the UI updates the changes and we're left with a jump in sequence
         // ex. if we have list 1-5 words and delete item 3 the list will now show 1,2,4,5 instead of 1,2,3,4
-
      */
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = ItemDetailFragmentBinding.inflate(inflater, container, false)
@@ -119,7 +113,6 @@ class ItemDetailFragment : Fragment() {
             }
         }
     }
-//    Log.d("devNotes", "word: ${word.word} ItemDetailsFragment onViewCreated initialized successfully")
 
     override fun onDestroy() {
         super.onDestroy()
