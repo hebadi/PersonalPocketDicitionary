@@ -3,6 +3,7 @@ package com.app1.personalpocketdictionary.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +24,18 @@ class ItemDetailFragment : Fragment() {
     // Property delegation in Kotlin helps you to handoff the getter-setter responsibility to a different class.
     // this delegation is made by using "by" followed by the delegate class, in this case "viewModels()"
     // The delegate class creates the viewModel object for you on the first access, and retains its value through configuration changes and returns the value when requested.
+
     private val viewModel: DictionaryViewModel by activityViewModels{
         DictionaryViewModelFactory(
             (activity?.application as DictionaryApplication).database.getDao()
         ) // not sure what all that above is but its boilerplate code copy pasta
     }
+//    below are other ways to make a late init view model
+//    private val viewModel: DictionaryViewModel by lazy {
+//        ViewModelProvider(this).get(DictionaryViewModel::class.java)
+//    }
+
+//    private lateinit var viewModel: DictionaryViewModel
 
     private lateinit var word: DictionaryData
 
@@ -84,6 +92,10 @@ class ItemDetailFragment : Fragment() {
         viewModel.deleteWord(word)
         findNavController().navigateUp()
     }
+    /*
+        // once the word is deleted, we're already in the ItemFragment so the UI updates the changes and we're left with a jump in sequence
+        // ex. if we have list 1-5 words and delete item 3 the list will now show 1,2,4,5 instead of 1,2,3,4
+     */
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = ItemDetailFragmentBinding.inflate(inflater, container, false)
@@ -93,9 +105,12 @@ class ItemDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
-        viewModel.retrieveData(id).observe(this.viewLifecycleOwner) { selectedItem ->
-            word = selectedItem
-            bind(word)
+        Log.d("devNotes", "nav args ID: $id")
+        viewModel.retrieveData(id).observe(viewLifecycleOwner) { selectedItem ->
+            selectedItem?.let {
+                word = selectedItem
+                bind(word)
+            }
         }
     }
 

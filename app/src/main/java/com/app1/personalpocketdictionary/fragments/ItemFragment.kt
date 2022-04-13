@@ -2,6 +2,7 @@ package com.app1.personalpocketdictionary.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -35,11 +36,14 @@ class ItemFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         setHasOptionsMenu(true) // idk why tf hasMenuOptions(true) isn't working but fuck it this is working lets roll with it
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
+        Log.d("devNotes", "onCreateView of ItemFragment successfully completed")
         return binding.root
     }
 
     // used to set up the recycler view and assign layout manager if not done in xml
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("devNotes", "onViewCreated of ItemFragment successfully initiated")
+
         super.onViewCreated(view, savedInstanceState)
 
         // this passes in and takes care of moving from list fragment to detail fragment
@@ -57,13 +61,14 @@ class ItemFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        viewModel.allData.observe(this.viewLifecycleOwner) { items ->
+        viewModel.allData.observe(viewLifecycleOwner) { items ->
             items.let {
                 adapter.submitList(it)
             }
             //submitList() passes in the new list.
             // This will update the RecyclerView with the new items on the list.
         }
+        Log.d("devNotes", "onViewCreated of ItemFragment successfully completed")
     }
 
 
@@ -83,6 +88,9 @@ class ItemFragment : Fragment() {
         super.onDestroy()
         _binding = null
         // close the primary database to ensure all the transactions are merged
-        AppDataBase.getDatabase(this.context!!).close()
+        AppDataBase.getDatabase(this.requireContext()).close()
+        Log.d("devNotes", "onDestroy of ItemFragment successfully completed")
     }
+//bug fixes:
+    // TODO: the app doesn't show the 12th term i believe despite it being added to the database. every subsequent addition will add the previous one that is in "que"
 }
