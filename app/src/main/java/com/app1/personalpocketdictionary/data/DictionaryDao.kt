@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DictionaryDao {
-    @Query("SELECT * FROM dictionary") // can alter this to order by word for example
+    @Query("SELECT * FROM dictionary")
     fun getAll(): Flow<List<DictionaryData>>
     @Query("SELECT * from dictionary WHERE id=:id")
     fun getContents(id: Int): Flow<DictionaryData>
