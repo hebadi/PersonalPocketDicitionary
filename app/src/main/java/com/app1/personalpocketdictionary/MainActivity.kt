@@ -1,33 +1,64 @@
 package com.app1.personalpocketdictionary
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.app1.personalpocketdictionary.databinding.ActivityMainBinding
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.navigation.compose.rememberNavController
+import com.app1.personalpocketdictionary.ui.navigation.AppNavHost
+import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Get the navigation host fragment from this Activity
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        // Instantiate the navController using the navHostFragment
-        navController = navHostFragment.navController
-        // if you have an action bar:
-        // Make sure actions in the ActionBar get propagated to the NavController. this does the following:
-        // Show a title in the app bar based off of the destination's label, and display the Up button whenever you're not on a top-level destination.
-        setupActionBarWithNavController(navController)
-        packageManager
+        setContent {
+            PersonalPocketDictionaryTheme {
+                val navController = rememberNavController()
+                AppNavHost(
+                    navController = navController,
+                    onVenmoClick = { venmoMe() },
+                    onPaypalClick = { paypalMe() },
+                    onEmailClick = { emailMe() }
+                )
+            }
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    // These methods are kept in MainActivity as they require Context to start Intents
+    private fun venmoMe() {
+        val venmoURL = "https://venmo.com/u/hamidebadi"
+        val queryUrl: Uri = Uri.parse(venmoURL)
+        val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+        startActivity(intent)
     }
+
+    private fun paypalMe() {
+        val paypalURL = "https://paypal.me/HamidEbadi?country.x=US&locale.x=en_US"
+        val queryUrl: Uri = Uri.parse(paypalURL)
+        val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+        startActivity(intent)
+    }
+
+    private fun emailMe() {
+        try {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_address)))
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.email_text))
+            }
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, getString(R.string.email_exception_activity_not_found), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // onSupportNavigateUp is typically not needed with Compose Navigation,
+    // as TopAppBars handle their own navigation icons and actions.
+    // If it were needed for some specific interop, it would involve the Compose NavController.
 }
