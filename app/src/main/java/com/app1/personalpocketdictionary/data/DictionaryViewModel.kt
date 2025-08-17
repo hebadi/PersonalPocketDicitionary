@@ -7,7 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class DictionaryViewModel(private val dictionaryDao: DictionaryDao): ViewModel() {
+open class DictionaryViewModel(private val dictionaryDao: DictionaryDao): ViewModel() {
     // backing property, used to allow access to only retrieve data outside of this class and at the same time have its internal variables modifiable
 //
 //    private var _dataSet = mutableListOf<DictionaryData>() // interestingly MutableLiveData<>() is capitalized, thats cause we're making an object (yes everything in kotlin is an object but the default data collection types act like methods instead of objects)
