@@ -4,7 +4,7 @@ androidGradlePlugin = "8.12.0"
 # @pin
 kotlin = "2.2.10"
 # @pin
-ksp = "2.1.10-1.0.31"
+ksp = "2.2.10-2.0.2"
 
 # @pin
 appCompat = "1.7.1"
