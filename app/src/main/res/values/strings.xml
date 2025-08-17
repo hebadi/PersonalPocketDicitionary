@@ -16,6 +16,11 @@
     <string name="definition"><i>definition:</i> </string>
     <string name="example"><i>example:</i> </string>
     <string name="add_new_item">Add a New Item</string>
+    <string name="no_words_yet">No words yet</string>">
+    <string name="add_word_title">Add word</string>">
+    <string name="title_item_detail">Word Detail</string>">
+    <string name="navigate_up">Navigate up</string>">
+    <string name="loading_item">Loading...</string>">
     <string name="save_action">Save</string>
     <string name="word_to_learn">Word to learn</string>
     <string name="paraphrase_speech">Part of speech</string>
@@ -45,4 +50,5 @@
 
     <string name="full_dev_notes">Wassup yall! This is Hamid, I want to thank you for checking out my first ever app. It is super simple but you won\'t believe how many hours went into its creation, not gonna lie I\'m proud af! If you like it as much as me leave a review. Else, if you think it\'s doodoo then see me outside (or hit the email button below to let me know what could improve). I don\'t ever intend to add advertisements to this app or make it a paid app because F- that noise man it\'s a dictionary lol. But if you like it and want to support me, my monies info is below. Alright get your vocab game on! Deuces</string>
     <string name="settings">settings</string>
+    <string name="edit_word_title">Edit word</string>
 </resources>
