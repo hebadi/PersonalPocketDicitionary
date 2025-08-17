@@ -15,7 +15,7 @@ constraintLayout = "2.2.1"
 # @pin
 fragment = "1.8.9"
 # @pin
-lifecycle = "2.7.0"
+lifecycle = "2.9.2"
 # @pin
 navigation = "2.9.3"
 # @pin
