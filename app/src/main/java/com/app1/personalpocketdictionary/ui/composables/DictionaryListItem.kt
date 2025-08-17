@@ -2,6 +2,7 @@ package com.app1.personalpocketdictionary.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,7 +23,7 @@ fun DictionaryListItem(
 ) {
     Row(
         modifier = modifier
-            .fillParentMaxWidth() // Ensure Row takes full width for clickability
+            .fillMaxWidth()
             .clickable { onItemClick(itemData) }
             .padding(horizontal = 16.dp, vertical = 8.dp), // Corresponds to @dimen/text_margin roughly
         verticalAlignment = Alignment.CenterVertically
