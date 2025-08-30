@@ -8,7 +8,8 @@ import com.app1.personalpocketdictionary.data.DictionaryData
 data class ItemListUiState(
     val words: UiState<List<DictionaryData>> = UiState.Idle,
     val searchQuery: String = "",
-    val filteredWords: List<DictionaryData> = emptyList()
+    val filteredWords: List<DictionaryData> = emptyList(),
+    val sortOrder: SortOrder = SortOrder.DATE_ADDED
 ) {
     val isLoading: Boolean get() = words.isLoading
     val isEmpty: Boolean get() = words.data?.isEmpty() ?: false

@@ -8,6 +8,7 @@ import com.app1.personalpocketdictionary.domain.usecase.GetAllWordsUseCase
 import com.app1.personalpocketdictionary.domain.usecase.GetWordByIdUseCase
 import com.app1.personalpocketdictionary.domain.usecase.UpdateWordUseCase
 import com.app1.personalpocketdictionary.presentation.state.ItemListUiState
+import com.app1.personalpocketdictionary.presentation.state.SortOrder
 import com.app1.personalpocketdictionary.presentation.state.UiState
 import com.app1.personalpocketdictionary.presentation.state.data
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,9 +46,10 @@ class ModernDictionaryViewModel @Inject constructor(
 
         getAllWordsUseCase()
             .onEach { words ->
+                val sortedWords = sortWordsList(words, _uiState.value.sortOrder)
                 _uiState.value = _uiState.value.copy(
-                    words = UiState.Success(words),
-                    filteredWords = filterWords(words, _uiState.value.searchQuery)
+                    words = UiState.Success(sortedWords),
+                    filteredWords = filterWords(sortedWords, _uiState.value.searchQuery)
                 )
             }
             .catch { exception ->
@@ -107,9 +109,21 @@ class ModernDictionaryViewModel @Inject constructor(
     }
 
     fun searchWords(query: String) {
+        val currentWords = _uiState.value.words.data ?: emptyList()
         _uiState.value = _uiState.value.copy(
             searchQuery = query,
-            filteredWords = filterWords(_uiState.value.words.data ?: emptyList(), query)
+            filteredWords = filterWords(currentWords, query)
+        )
+    }
+
+    fun sortWords(sortOrder: SortOrder) {
+        val currentWords = _uiState.value.words.data ?: emptyList()
+        val sortedWords = sortWordsList(currentWords, sortOrder)
+
+        _uiState.value = _uiState.value.copy(
+            words = UiState.Success(sortedWords),
+            filteredWords = filterWords(sortedWords, _uiState.value.searchQuery),
+            sortOrder = sortOrder
         )
     }
 
@@ -125,6 +139,18 @@ class ModernDictionaryViewModel @Inject constructor(
                         it.definition.contains(query, ignoreCase = true) ||
                         it.partOfSpeech.contains(query, ignoreCase = true)
             }
+        }
+    }
+
+    private fun sortWordsList(
+        words: List<com.app1.personalpocketdictionary.data.DictionaryData>,
+        sortOrder: SortOrder
+    ): List<com.app1.personalpocketdictionary.data.DictionaryData> {
+        return when (sortOrder) {
+            SortOrder.ALPHABETICAL -> words.sortedBy { it.word.lowercase() }
+            SortOrder.REVERSE_ALPHABETICAL -> words.sortedByDescending { it.word.lowercase() }
+            SortOrder.DATE_ADDED -> words.sortedBy { it.id }
+            SortOrder.DATE_ADDED_REVERSE -> words.sortedByDescending { it.id }
         }
     }
 

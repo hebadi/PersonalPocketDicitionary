@@ -1,28 +1,44 @@
 package com.app1.personalpocketdictionary.ui.itemlist
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
+import com.app1.personalpocketdictionary.presentation.state.SortOrder
 import com.app1.personalpocketdictionary.presentation.state.data
 import com.app1.personalpocketdictionary.presentation.viewmodel.ModernDictionaryViewModel
 import com.app1.personalpocketdictionary.ui.composables.DictionaryListItem
@@ -40,13 +56,52 @@ fun ItemListScreen(
         uiState.filteredWords.takeIf { uiState.searchQuery.isNotBlank() } ?: (uiState.words.data
             ?: emptyList())
 
+    var showMenu by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
-            // The original Fragment ItemFragment has options menu handled by the Fragment itself.
-            // If a TopAppBar is desired here, it can be added, but menu inflation from XML
-            // is typically managed at the Fragment/Activity level when mixing Compose and Views.
-            // For simplicity, we'll assume the Fragment handles the options menu for "Dev Notes".
-            // If a title is needed: TopAppBar(title = { Text("Dictionary") })
+            TopAppBar(
+                title = { Text("Dictionary") },
+                actions = {
+                    IconButton(onClick = { showMenu = !showMenu }) {
+                        Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Sort A-Z") },
+                            onClick = {
+                                viewModel.sortWords(SortOrder.ALPHABETICAL)
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Sort Z-A") },
+                            onClick = {
+                                viewModel.sortWords(SortOrder.REVERSE_ALPHABETICAL)
+                                showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Sort by Date Added") },
+                            onClick = {
+                                viewModel.sortWords(SortOrder.DATE_ADDED)
+                                showMenu = false
+                            }
+                        )
+                        Divider()
+                        DropdownMenuItem(
+                            text = { Text("Dev Notes") },
+                            onClick = {
+                                navController.navigate(Screen.DevNotes.route)
+                                showMenu = false
+                            }
+                        )
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -59,14 +114,45 @@ fun ItemListScreen(
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            if (items.isEmpty()) {
-                // Optional: Display a message when the list is empty
+        Column(modifier = Modifier.padding(paddingValues)) {
+            // Table Header like in your original design
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = stringResource(R.string.no_words_yet), // Assuming you have such a string
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.align(Alignment.Center)
+                    text = "#",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(0.15f),
+                    textAlign = TextAlign.Center
                 )
+                Text(
+                    text = "V O C A B U L A R Y",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp,
+                    modifier = Modifier.weight(0.85f),
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Divider()
+
+            // Content
+            if (items.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No words added yet",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(32.dp)
+                    )
+                }
             } else {
                 LazyColumn {
                     itemsIndexed(items, key = { _, item -> item.id }) { index, item ->
@@ -79,7 +165,7 @@ fun ItemListScreen(
                             }
                         )
                         if (index < items.lastIndex) {
-                            Divider() // Add a divider between items
+                            Divider()
                         }
                     }
                 }
