@@ -10,7 +10,9 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
 import com.app1.personalpocketdictionary.ui.navigation.AppNavHost
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
