@@ -46,20 +46,20 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
 import com.app1.personalpocketdictionary.data.DictionaryData
-import com.app1.personalpocketdictionary.data.DictionaryViewModel
-import com.app1.personalpocketdictionary.ui.addandedit.PreviewDictionaryViewModel
+import com.app1.personalpocketdictionary.presentation.viewmodel.ModernDictionaryViewModel
+
 import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemDetailScreen(
-    viewModel: DictionaryViewModel,
+    viewModel: ModernDictionaryViewModel,
     itemId: Int,
     navController: NavController
 ) {
     val context = LocalContext.current
-    val itemState = viewModel.retrieveData(itemId).collectAsState(initial = null)
+    val itemState = viewModel.getWordById(itemId).collectAsState(initial = null)
     val item = itemState.value
 
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -197,7 +197,8 @@ fun ItemDetailScreenPreview() {
     PersonalPocketDictionaryTheme {
         // This preview will show the loading state or an empty state if PreviewDictionaryViewModel doesn't emit.
         // For a full preview, PreviewDictionaryViewModel would need to be enhanced or a specific item passed.
-        val previewViewModel = PreviewDictionaryViewModel()
+        val previewViewModel =
+            com.app1.personalpocketdictionary.ui.addandedit.createPreviewViewModel()
         // Simulate loading an item for preview - in a real app, this comes from LiveData
         DictionaryData(1, "Preview Word", "Noun", "This is a preview definition.", "This is a preview example.")
         

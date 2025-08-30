@@ -1,20 +1,17 @@
 package com.app1.personalpocketdictionary.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.app1.personalpocketdictionary.data.DictionaryApplication
-import com.app1.personalpocketdictionary.data.DictionaryViewModel
-import com.app1.personalpocketdictionary.data.DictionaryViewModelFactory
+import com.app1.personalpocketdictionary.presentation.viewmodel.ModernDictionaryViewModel
 import com.app1.personalpocketdictionary.ui.addandedit.AddAndEditScreen
 import com.app1.personalpocketdictionary.ui.devnotes.DevNotesScreen
 import com.app1.personalpocketdictionary.ui.itemdetail.ItemDetailScreen
 import com.app1.personalpocketdictionary.ui.itemlist.ItemListScreen
-import androidx.compose.ui.platform.LocalContext
 
 sealed class Screen(val route: String) {
     object ItemList : Screen("itemList")
@@ -36,16 +33,10 @@ fun AppNavHost(
     onPaypalClick: () -> Unit,
     onEmailClick: () -> Unit
 ) {
-    // Obtain the application instance from LocalContext
-    val application = LocalContext.current.applicationContext as DictionaryApplication
-    // Create the ViewModel using the factory
-    val dictionaryViewModel: DictionaryViewModel = viewModel(
-        factory = DictionaryViewModelFactory(application.database.getDao())
-    )
-
     NavHost(navController = navController, startDestination = Screen.ItemList.route) {
         composable(Screen.ItemList.route) {
-            ItemListScreen(viewModel = dictionaryViewModel, navController = navController)
+            val viewModel: ModernDictionaryViewModel = hiltViewModel()
+            ItemListScreen(viewModel = viewModel, navController = navController)
         }
         composable(
             Screen.ItemDetail.route,
@@ -53,7 +44,12 @@ fun AppNavHost(
         ) { backStackEntry ->
             val itemId = backStackEntry.arguments?.getInt("itemId")
             if (itemId != null) {
-                ItemDetailScreen(viewModel = dictionaryViewModel, itemId = itemId, navController = navController)
+                val viewModel: ModernDictionaryViewModel = hiltViewModel()
+                ItemDetailScreen(
+                    viewModel = viewModel,
+                    itemId = itemId,
+                    navController = navController
+                )
             } else {
                 // Handle error or navigate back
                 navController.popBackStack()
@@ -69,14 +65,14 @@ fun AppNavHost(
         ) { backStackEntry ->
             val itemIdStr = backStackEntry.arguments?.getString("itemId")
             val itemId = itemIdStr?.toIntOrNull()
-            AddAndEditScreen(viewModel = dictionaryViewModel, navController = navController, itemId = itemId)
+            val viewModel: ModernDictionaryViewModel = hiltViewModel()
+            AddAndEditScreen(viewModel = viewModel, navController = navController, itemId = itemId)
         }
         composable(Screen.DevNotes.route) {
             DevNotesScreen(
                 onVenmoClick = onVenmoClick,
                 onPaypalClick = onPaypalClick,
                 onEmailClick = onEmailClick
-                // If DevNotesScreen needed navController, it would be passed here
             )
         }
     }

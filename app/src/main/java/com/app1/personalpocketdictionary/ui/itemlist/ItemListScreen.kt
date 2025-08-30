@@ -23,9 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
-import com.app1.personalpocketdictionary.data.DictionaryData
-import com.app1.personalpocketdictionary.data.DictionaryViewModel
-import com.app1.personalpocketdictionary.ui.addandedit.PreviewDictionaryViewModel
+import com.app1.personalpocketdictionary.presentation.state.data
+import com.app1.personalpocketdictionary.presentation.viewmodel.ModernDictionaryViewModel
 import com.app1.personalpocketdictionary.ui.composables.DictionaryListItem
 import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
@@ -33,10 +32,13 @@ import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemListScreen(
-    viewModel: DictionaryViewModel,
+    viewModel: ModernDictionaryViewModel,
     navController: NavController
 ) {
-    val items: List<DictionaryData> by viewModel.allData.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val items =
+        uiState.filteredWords.takeIf { uiState.searchQuery.isNotBlank() } ?: (uiState.words.data
+            ?: emptyList())
 
     Scaffold(
         topBar = {
@@ -92,7 +94,7 @@ fun ItemListScreenPreview() {
     PersonalPocketDictionaryTheme {
         // Using PreviewDictionaryViewModel which is a simplified version for previews
         ItemListScreen(
-            viewModel = PreviewDictionaryViewModel(), // Ensure this can provide some dummy data or empty list
+            viewModel = com.app1.personalpocketdictionary.ui.addandedit.createPreviewViewModel(), // Ensure this can provide some dummy data or empty list
             navController = NavController(LocalContext.current) // Dummy NavController
         )
     }

@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
 import com.app1.personalpocketdictionary.data.DictionaryDao
 import com.app1.personalpocketdictionary.data.DictionaryData
-import com.app1.personalpocketdictionary.data.DictionaryViewModel
+import com.app1.personalpocketdictionary.presentation.viewmodel.ModernDictionaryViewModel
 import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.Flow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddAndEditScreen(
-    viewModel: DictionaryViewModel,
+    viewModel: ModernDictionaryViewModel,
     navController: NavController,
     itemId: Int? // Null for Add, non-null for Edit
 ) {
@@ -54,9 +54,9 @@ fun AddAndEditScreen(
     var definitionText by remember { mutableStateOf("") }
     var exampleText by remember { mutableStateOf("") }
 
-    // If itemId is provided (Edit mode), observe the LiveData for the item
+    // If itemId is provided (Edit mode), observe the data for the item
     if (itemId != null && itemId > 0) {
-        val itemState by viewModel.retrieveData(itemId).collectAsState(initial = null)
+        val itemState by viewModel.getWordById(itemId).collectAsState(initial = null)
         LaunchedEffect(itemState) { // Use LaunchedEffect to update states when itemState changes
             itemState?.let { item ->
                 wordText = item.word
@@ -74,11 +74,12 @@ fun AddAndEditScreen(
     }
 
     fun handleSaveChanges() {
-        if (viewModel.isEntryValid(wordText, speechText, definitionText, exampleText)) {
+        // Basic validation - check if fields are not blank
+        if (wordText.isNotBlank() && speechText.isNotBlank() && definitionText.isNotBlank() && exampleText.isNotBlank()) {
             if (itemId != null && itemId > 0) {
-                viewModel.updateItem(itemId, wordText, speechText, definitionText, exampleText)
+                viewModel.updateWord(itemId, wordText, speechText, definitionText, exampleText)
             } else {
-                viewModel.addNewItem(wordText, speechText, definitionText, exampleText)
+                viewModel.addWord(wordText, speechText, definitionText, exampleText)
             }
             // Navigate back to the list screen
             navController.navigate(Screen.ItemList.route) {
@@ -176,8 +177,26 @@ class MockDictionaryDao : DictionaryDao {
     override suspend fun delete(word: DictionaryData) {}
 }
 
-// Preview ViewModel using mock DAO
-class PreviewDictionaryViewModel : DictionaryViewModel(MockDictionaryDao())
+// Simplified Preview ViewModel - just for Compose previews
+fun createPreviewViewModel(): ModernDictionaryViewModel {
+    val mockDao = MockDictionaryDao()
+    val repository = com.app1.personalpocketdictionary.data.repository.DictionaryRepository(mockDao)
+    return ModernDictionaryViewModel(
+        getAllWordsUseCase = com.app1.personalpocketdictionary.domain.usecase.GetAllWordsUseCase(
+            repository
+        ),
+        getWordByIdUseCase = com.app1.personalpocketdictionary.domain.usecase.GetWordByIdUseCase(
+            repository
+        ),
+        addWordUseCase = com.app1.personalpocketdictionary.domain.usecase.AddWordUseCase(repository),
+        updateWordUseCase = com.app1.personalpocketdictionary.domain.usecase.UpdateWordUseCase(
+            repository
+        ),
+        deleteWordUseCase = com.app1.personalpocketdictionary.domain.usecase.DeleteWordUseCase(
+            repository
+        )
+    )
+}
 
 
 @Preview(showBackground = true)
@@ -185,7 +204,7 @@ class PreviewDictionaryViewModel : DictionaryViewModel(MockDictionaryDao())
 fun AddScreenPreview() {
     PersonalPocketDictionaryTheme {
         AddAndEditScreen(
-            viewModel = PreviewDictionaryViewModel(), // Use a preview-specific ViewModel or mock
+            viewModel = createPreviewViewModel(), // Use a preview-specific ViewModel or mock
             navController = NavController(LocalContext.current), // Dummy NavController
             itemId = null // For Add mode
         )
@@ -200,7 +219,7 @@ fun EditScreenPreview() {
     // For preview, you might pass initial text values or enhance PreviewDictionaryViewModel.
     PersonalPocketDictionaryTheme {
         AddAndEditScreen(
-            viewModel = PreviewDictionaryViewModel(),
+            viewModel = createPreviewViewModel(),
             navController = NavController(LocalContext.current),
             itemId = 1 // For Edit mode
         )
