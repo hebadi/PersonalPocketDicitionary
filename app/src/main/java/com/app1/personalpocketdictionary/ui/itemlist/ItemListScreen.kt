@@ -6,7 +6,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,10 +25,10 @@ import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
 import com.app1.personalpocketdictionary.data.DictionaryData
 import com.app1.personalpocketdictionary.data.DictionaryViewModel
-import com.app1.personalpocketdictionary.fragments.ItemFragmentDirections // For navigation actions
+import com.app1.personalpocketdictionary.ui.addandedit.PreviewDictionaryViewModel
 import com.app1.personalpocketdictionary.ui.composables.DictionaryListItem
+import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
-import com.app1.personalpocketdictionary.ui.addandedit.PreviewDictionaryViewModel // For preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,10 +49,8 @@ fun ItemListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    val action = ItemFragmentDirections.actionItemFragmentToAddAndEditFragment(
-                        navController.context.getString(R.string.add_fragment_title) // Get string resource via context
-                    )
-                    navController.navigate(action)
+                    val route = Screen.AddAndEditItem.createRoute()
+                    navController.navigate(route)
                 }
             ) {
                 Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_word_title))
@@ -68,8 +72,8 @@ fun ItemListScreen(
                             itemData = item,
                             itemNumber = index + 1,
                             onItemClick = {
-                                val action = ItemFragmentDirections.actionItemFragmentToItemDetailFragment(item.id)
-                                navController.navigate(action)
+                                val route = Screen.ItemDetail.createRoute(item.id)
+                                navController.navigate(route)
                             }
                         )
                         if (index < items.lastIndex) {

@@ -1,9 +1,17 @@
 package com.app1.personalpocketdictionary.ui.itemdetail
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -11,9 +19,23 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,13 +43,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
 import com.app1.personalpocketdictionary.data.DictionaryData
 import com.app1.personalpocketdictionary.data.DictionaryViewModel
-import com.app1.personalpocketdictionary.fragments.ItemDetailFragmentDirections // For navigation
-import com.app1.personalpocketdictionary.ui.addandedit.PreviewDictionaryViewModel // For preview
+import com.app1.personalpocketdictionary.ui.addandedit.PreviewDictionaryViewModel
+import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +59,7 @@ fun ItemDetailScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val itemState = viewModel.retrieveData(itemId).observeAsState()
+    val itemState = viewModel.retrieveData(itemId).collectAsState(initial = null)
     val item = itemState.value
 
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -53,11 +74,8 @@ fun ItemDetailScreen(
 
     fun editItem(currentItem: DictionaryData?) {
         currentItem ?: return
-        val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddAndEditFragment(
-            context.getString(R.string.edit_fragment_title),
-            currentItem.id
-        )
-        navController.navigate(action)
+        val route = Screen.AddAndEditItem.createRoute(currentItem.id)
+        navController.navigate(route)
     }
 
     fun deleteItem(currentItem: DictionaryData?) {
@@ -86,7 +104,9 @@ fun ItemDetailScreen(
         }
     ) { paddingValues ->
         if (item == null) {
-            Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues), contentAlignment = Alignment.Center) {
                 //CircularProgressIndicator() // Or some other loading state
                 Text(stringResource(R.string.loading_item))
             }
@@ -179,7 +199,7 @@ fun ItemDetailScreenPreview() {
         // For a full preview, PreviewDictionaryViewModel would need to be enhanced or a specific item passed.
         val previewViewModel = PreviewDictionaryViewModel()
         // Simulate loading an item for preview - in a real app, this comes from LiveData
-        val sampleItem = DictionaryData(1, "Preview Word", "Noun", "This is a preview definition.", "This is a preview example.")
+        DictionaryData(1, "Preview Word", "Noun", "This is a preview definition.", "This is a preview example.")
         
         // A trick to make the preview work with the current setup:
         // Directly pass a sample item to a modified Composable, or make retrieveData in Preview VM return static LiveData.

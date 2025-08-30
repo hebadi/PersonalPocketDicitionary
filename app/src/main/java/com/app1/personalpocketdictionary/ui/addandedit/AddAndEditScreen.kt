@@ -3,11 +3,25 @@ package com.app1.personalpocketdictionary.ui.addandedit
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,10 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
+import com.app1.personalpocketdictionary.data.DictionaryDao
 import com.app1.personalpocketdictionary.data.DictionaryData
 import com.app1.personalpocketdictionary.data.DictionaryViewModel
-import com.app1.personalpocketdictionary.fragments.AddAndEditFragmentDirections // May need to adjust if NavController is used directly
+import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,10 +80,10 @@ fun AddAndEditScreen(
             } else {
                 viewModel.addNewItem(wordText, speechText, definitionText, exampleText)
             }
-            // Navigate back or to the list screen
-            // The original fragment used AddAndEditFragmentDirections.actionAddAndEditFragmentToItemFragment()
-            // This assumes that the current destination in the NavGraph is the one that can perform this action.
-            navController.navigate(R.id.action_addAndEditFragment_to_itemFragment)
+            // Navigate back to the list screen
+            navController.navigate(Screen.ItemList.route) {
+                popUpTo(Screen.ItemList.route) { inclusive = true }
+            }
 
         } else {
             hideKeyboard()
@@ -147,14 +163,21 @@ fun AddAndEditScreen(
     }
 }
 
-// Dummy ViewModel for Preview - In a real scenario, you might use a mock or a simple implementation.
-class PreviewDictionaryViewModel : DictionaryViewModel(null) { // Assuming null DAO is acceptable for preview or mock it
-    override fun isEntryValid(word: String, speech: String, definition: String, example: String): Boolean = true
-    override fun addNewItem(word: String, speech: String, definition: String, example: String) {}
-    override fun updateItem(id: Int, word: String, speech: String, definition: String, example: String) {}
-    // You might need to return mock LiveData if your Composable directly observes it for initial population.
-    // For simplicity, AddAndEditScreen takes initial values directly or fetches via LaunchedEffect.
+// Mock DAO for Preview
+class MockDictionaryDao : DictionaryDao {
+    override fun getAll(): Flow<List<DictionaryData>> = kotlinx.coroutines.flow.flowOf(emptyList())
+    override fun getContents(id: Int): Flow<DictionaryData> = kotlinx.coroutines.flow.flowOf(
+        DictionaryData(1, "Sample", "Noun", "A sample definition", "This is a sample.")
+    )
+
+    override fun getWordsList(): Flow<List<String>> = kotlinx.coroutines.flow.flowOf(emptyList())
+    override suspend fun insert(word: DictionaryData) {}
+    override suspend fun update(word: DictionaryData) {}
+    override suspend fun delete(word: DictionaryData) {}
 }
+
+// Preview ViewModel using mock DAO
+class PreviewDictionaryViewModel : DictionaryViewModel(MockDictionaryDao())
 
 
 @Preview(showBackground = true)
