@@ -1,10 +1,12 @@
 package com.app1.personalpocketdictionary.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 open class DictionaryViewModel(private val dictionaryDao: DictionaryDao): ViewModel() {
@@ -13,10 +15,16 @@ open class DictionaryViewModel(private val dictionaryDao: DictionaryDao): ViewMo
 //    private var _dataSet = mutableListOf<DictionaryData>() // interestingly MutableLiveData<>() is capitalized, thats cause we're making an object (yes everything in kotlin is an object but the default data collection types act like methods instead of objects)
 //    val dataSet get() = _dataSet
 
-    val allData : LiveData<List<DictionaryData>> = dictionaryDao.getAll().asLiveData()
+    val allData : StateFlow<List<DictionaryData>> = dictionaryDao.getAll()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+            initialValue = emptyList()
+        )
 
-    fun retrieveData(id: Int) : LiveData<DictionaryData>{
-        return dictionaryDao.getContents(id).asLiveData()
+
+    fun retrieveData(id: Int) : Flow<DictionaryData>{
+        return dictionaryDao.getContents(id)
     }
 
     // this commented code below was used once to generate a db file to use to prepopulate the db upon initial install
@@ -60,4 +68,7 @@ open class DictionaryViewModel(private val dictionaryDao: DictionaryDao): ViewMo
         }
     }
 
+    companion object {
+        private const val TIMEOUT_MILLIS = 5_000L
+    }
 }

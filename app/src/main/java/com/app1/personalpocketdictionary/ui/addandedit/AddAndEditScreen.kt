@@ -8,7 +8,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,9 +40,9 @@ fun AddAndEditScreen(
 
     // If itemId is provided (Edit mode), observe the LiveData for the item
     if (itemId != null && itemId > 0) {
-        val itemState = viewModel.retrieveData(itemId).observeAsState()
-        LaunchedEffect(itemState.value) { // Use LaunchedEffect to update states when itemState changes
-            itemState.value?.let { item ->
+        val itemState by viewModel.retrieveData(itemId).collectAsState(initial = null)
+        LaunchedEffect(itemState) { // Use LaunchedEffect to update states when itemState changes
+            itemState?.let { item ->
                 wordText = item.word
                 speechText = item.partOfSpeech
                 definitionText = item.definition

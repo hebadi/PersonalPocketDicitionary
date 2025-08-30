@@ -49,7 +49,6 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -75,7 +74,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 
 [bundles]
 navigation = ["androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx"]
-lifecycle = ["androidx-lifecycle-livedata-ktx", "androidx-lifecycle-viewmodel-ktx"]
+lifecycle = ["androidx-lifecycle-viewmodel-ktx"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
 compose = [
     "androidx-compose-ui",
