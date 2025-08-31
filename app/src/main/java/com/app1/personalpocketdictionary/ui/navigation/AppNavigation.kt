@@ -72,7 +72,8 @@ fun AppNavHost(
             DevNotesScreen(
                 onVenmoClick = onVenmoClick,
                 onPaypalClick = onPaypalClick,
-                onEmailClick = onEmailClick
+                onEmailClick = onEmailClick,
+                navController = navController
             )
         }
     }

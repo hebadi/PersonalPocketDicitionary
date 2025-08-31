@@ -43,7 +43,7 @@ import kotlinx.coroutines.flow.Flow
 fun AddAndEditScreen(
     viewModel: ModernDictionaryViewModel,
     navController: NavController,
-    itemId: Int? // Null for Add, non-null for Edit
+    itemId: Int?
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -62,7 +62,7 @@ fun AddAndEditScreen(
                 wordText = item.word
                 speechText = item.partOfSpeech
                 definitionText = item.definition
-                exampleText = item.example ?: ""
+                exampleText = item.example
             }
         }
     }

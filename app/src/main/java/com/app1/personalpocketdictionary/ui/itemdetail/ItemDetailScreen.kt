@@ -15,14 +15,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +47,6 @@ import androidx.navigation.NavController
 import com.app1.personalpocketdictionary.R
 import com.app1.personalpocketdictionary.data.DictionaryData
 import com.app1.personalpocketdictionary.presentation.viewmodel.ModernDictionaryViewModel
-
 import com.app1.personalpocketdictionary.ui.navigation.Screen
 import com.app1.personalpocketdictionary.ui.theme.PersonalPocketDictionaryTheme
 
@@ -90,7 +89,10 @@ fun ItemDetailScreen(
                 title = { Text(item?.word?.uppercase() ?: stringResource(R.string.title_item_detail)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.navigate_up))
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.navigate_up)
+                        )
                     }
                 }
             )
@@ -126,10 +128,13 @@ fun ItemDetailScreen(
                 // Divider() // Corresponds to big_divider
 
                 DetailRow(label = stringResource(R.string.part_of_speech), value = item.partOfSpeech)
-                CustomDivider()
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 DetailRow(label = stringResource(R.string.definition), value = item.definition)
-                CustomDivider()
-                DetailRow(label = stringResource(R.string.example), value = item.example ?: "") // Handle null example
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                DetailRow(
+                    label = stringResource(R.string.example),
+                    value = item.example
+                ) // Handle null example
 
                 Spacer(Modifier.height(32.dp)) // Space before action buttons
 
@@ -184,11 +189,6 @@ fun DetailRow(label: String, value: String) {
             modifier = Modifier.padding(start = 8.dp) // Indent value slightly or style as needed
         )
     }
-}
-
-@Composable
-fun CustomDivider() {
-    Divider(modifier = Modifier.padding(vertical = 8.dp)) // @dimen/margin_between_elements
 }
 
 @Preview(showBackground = true)
