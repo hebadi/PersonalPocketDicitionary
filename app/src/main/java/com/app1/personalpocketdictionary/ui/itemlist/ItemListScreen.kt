@@ -10,11 +10,11 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -91,7 +91,7 @@ fun ItemListScreen(
                                 showMenu = false
                             }
                         )
-                        Divider()
+                        HorizontalDivider()
                         DropdownMenuItem(
                             text = { Text("Dev Notes") },
                             onClick = {
@@ -139,7 +139,7 @@ fun ItemListScreen(
                 )
             }
 
-            Divider()
+            HorizontalDivider()
 
             // Content
             if (items.isEmpty()) {
@@ -165,7 +165,7 @@ fun ItemListScreen(
                             }
                         )
                         if (index < items.lastIndex) {
-                            Divider()
+                            HorizontalDivider()
                         }
                     }
                 }

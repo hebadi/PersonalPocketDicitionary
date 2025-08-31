@@ -34,13 +34,14 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding true
-        compose true
+        viewBinding = true
+        compose = true
+        buildConfig = true
     }
-    namespace 'com.app1.personalpocketdictionary'
+    namespace = 'com.app1.personalpocketdictionary'
 
     composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
