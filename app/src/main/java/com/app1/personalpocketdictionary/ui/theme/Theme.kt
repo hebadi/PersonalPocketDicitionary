@@ -64,7 +64,7 @@ private val DarkColorScheme = darkColorScheme(
 fun PersonalPocketDictionaryTheme(
     darkTheme: Boolean = true, // Force dark theme like the screenshot
     // Dynamic coloring is available on Android S+
-    dynamicColor: Boolean = false, // Disable dynamic to ensure consistent dark theme
+    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
