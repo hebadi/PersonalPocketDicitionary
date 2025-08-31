@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -129,8 +130,7 @@ fun ItemListScreen(
                     text = "#",
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(0.15f),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.padding(end = 16.dp) // Same padding as list item numbers
                 )
                 Text(
                     text = "V O C A B U L A R Y",

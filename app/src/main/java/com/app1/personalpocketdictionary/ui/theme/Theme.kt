@@ -2,7 +2,6 @@ package com.app1.personalpocketdictionary.ui.theme
 
 import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -69,9 +68,9 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun PersonalPocketDictionaryTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true, // Force dark theme like the screenshot
     // Dynamic coloring is available on Android S+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Disable dynamic to ensure consistent dark theme
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
