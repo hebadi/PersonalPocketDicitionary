@@ -61,31 +61,34 @@ fun ItemListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dictionary") },
+                title = { Text(stringResource(R.string.dictionary_title)) },
                 actions = {
                     IconButton(onClick = { showMenu = !showMenu }) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "Menu")
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            contentDescription = stringResource(R.string.menu_description)
+                        )
                     }
                     DropdownMenu(
                         expanded = showMenu,
                         onDismissRequest = { showMenu = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Sort A-Z") },
+                            text = { Text(stringResource(R.string.sort_a_to_z)) },
                             onClick = {
                                 viewModel.sortWords(SortOrder.ALPHABETICAL)
                                 showMenu = false
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Sort Z-A") },
+                            text = { Text(stringResource(R.string.sort_z_to_a)) },
                             onClick = {
                                 viewModel.sortWords(SortOrder.REVERSE_ALPHABETICAL)
                                 showMenu = false
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Sort by Date Added") },
+                            text = { Text(stringResource(R.string.sort_by_date_added)) },
                             onClick = {
                                 viewModel.sortWords(SortOrder.DATE_ADDED)
                                 showMenu = false
@@ -93,7 +96,7 @@ fun ItemListScreen(
                         )
                         HorizontalDivider()
                         DropdownMenuItem(
-                            text = { Text("Dev Notes") },
+                            text = { Text(stringResource(R.string.dev_notes)) },
                             onClick = {
                                 navController.navigate(Screen.DevNotes.route)
                                 showMenu = false
@@ -148,7 +151,7 @@ fun ItemListScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No words added yet",
+                        text = stringResource(R.string.no_words_added_yet),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(32.dp)
                     )

@@ -47,12 +47,12 @@ fun DevNotesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dev Notes") },
+                title = { Text(stringResource(R.string.dev_notes)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Navigate back"
+                            contentDescription = stringResource(R.string.navigate_back_description)
                         )
                     }
                 }

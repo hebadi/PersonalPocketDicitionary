@@ -51,4 +51,16 @@
     <string name="full_dev_notes">Wassup yall! This is Hamid, I want to thank you for checking out my first ever app. It is super simple but you won\'t believe how many hours went into its creation, not gonna lie I\'m proud af! If you like it as much as me leave a review. Else, if you think it\'s doodoo then see me outside (or hit the email button below to let me know what could improve). I don\'t ever intend to add advertisements to this app or make it a paid app because F- that noise man it\'s a dictionary lol. But if you like it and want to support me, my monies info is below. Alright get your vocab game on! Deuces</string>
     <string name="settings">settings</string>
     <string name="edit_word_title">Edit word</string>
+
+    <!-- Navigation and Menu strings -->
+    <string name="dictionary_title">Dictionary</string>
+    <string name="menu_description">Menu</string>
+    <string name="sort_a_to_z">Sort A-Z</string>
+    <string name="sort_z_to_a">Sort Z-A</string>
+    <string name="sort_by_date_added">Sort by Date Added</string>
+    <string name="navigate_back_description">Navigate back</string>
+
+    <!-- Messages -->
+    <string name="no_words_added_yet">No words added yet</string>
+    <string name="please_fill_all_fields">Please fill all fields.</string>
 </resources>

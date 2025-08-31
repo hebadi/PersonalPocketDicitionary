@@ -88,7 +88,11 @@ fun AddAndEditScreen(
 
         } else {
             hideKeyboard()
-            Toast.makeText(context, "Please fill all fields.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.please_fill_all_fields),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
