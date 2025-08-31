@@ -12,10 +12,10 @@ android {
 
     defaultConfig {
         applicationId = "com.app1.personalpocketdictionary"
-        minSdk = 34
+        minSdk = 35
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.03"
+        versionCode = 5
+        versionName = "1.04" // Android 15+ edge-to-edge by default
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
