@@ -22,10 +22,6 @@ abstract class AppDataBase : RoomDatabase() {
 // The instance is stored in the companion object,
 
     companion object{
-//        val MIGRATION_1_2 = object : Migration(1, 2) {
-//            override fun migrate(database: SupportSQLiteDatabase) {
-//            }
-//        }
         @Volatile
         private var INSTANCE: AppDataBase? = null
         fun getDatabase(context: Context) : AppDataBase {
@@ -41,7 +37,7 @@ abstract class AppDataBase : RoomDatabase() {
                     .build()
                 INSTANCE = instance
 
-                instance // i think this line is what the elvis operator finally returns. can also write return before this for more clarity
+                instance // create and return instance of database if it was null
             }
         }
     }
