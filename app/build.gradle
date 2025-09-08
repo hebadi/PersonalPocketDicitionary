@@ -14,8 +14,8 @@ android {
         applicationId = "com.app1.personalpocketdictionary"
         minSdk = 35
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.04" // Android 15+ edge-to-edge by default
+        versionCode = 6
+        versionName = "1.6" // Android 15+ edge-to-edge by default
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
