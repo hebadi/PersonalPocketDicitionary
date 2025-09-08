@@ -37,7 +37,7 @@ abstract class AppDataBase : RoomDatabase() {
                     AppDataBase::class.java,
                     "app_database2.db")
 //                    .fallbackToDestructiveMigration() // notes on this at the bottom
-                    .createFromAsset("database/app_database.db") // this fun loads preexisting db which we don't have so i've commented it out
+                    .createFromAsset("database/app_database.db") // loads the pre-populated database from assets
                     .build()
                 INSTANCE = instance
 
